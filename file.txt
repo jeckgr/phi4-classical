@@ -1,0 +1,5 @@
+set yrange [-2:2]
+set term gif animate
+set output 'output.gif'
+filename(n) = sprintf("output_%d.txt", n)
+do for [i=0:999] { plot filename(i) using 1:2 w l lw 2 }
