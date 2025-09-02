@@ -3,9 +3,9 @@
 #include <cmath>
 int main() {
     int nx, nt;
-    double dx, dt, mu, lambda;
+    double dx, dt, m2, lambda;
     std::ifstream fin("input.txt");
-    fin >> nx >> nt >> dx >> dt >> mu >> lambda;
+    fin >> nx >> nt >> dx >> dt >> m2 >> lambda;
     fin.close();
     int *sup = new int[nx];
     int *sdn = new int[nx];
@@ -35,13 +35,13 @@ int main() {
         fout.open("output_"+std::to_string(t)+".txt");
         for (int x = 0; x < nx; ++x) {
             fout << x*dx << '\t' << phi[x] << '\n';
-            psi[x] = (phi[sup[x]]-2*phi[x]+phi[sdn[x]])/(dx*dx)-mu*phi[x]-lambda*phi[x]*phi[x]*phi[x];
+            psi[x] = (phi[sup[x]]-2*phi[x]+phi[sdn[x]])/(dx*dx)-m2*phi[x]-lambda*phi[x]*phi[x]*phi[x];
         }
         for (int x = 0; x < nx; ++x) {
             phi[x] = phi[x] + dt * pi[x] + dt*dt/2 * psi[x];
         }
         for (int x = 0; x < nx; ++x) {
-            chi[x] = (phi[sup[x]]-2*phi[x]+phi[sdn[x]])/(dx*dx)-mu*phi[x]-lambda*phi[x]*phi[x]*phi[x];
+            chi[x] = (phi[sup[x]]-2*phi[x]+phi[sdn[x]])/(dx*dx)-m2*phi[x]-lambda*phi[x]*phi[x]*phi[x];
         }
         for (int x = 0; x < nx; ++x) {
             pi[x] = pi[x] + dt/2 * (psi[x]+chi[x]);
